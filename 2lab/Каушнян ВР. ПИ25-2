@@ -1,0 +1,68 @@
+roman_to_int = {
+    "I": 1,
+    "V": 5,
+    "X": 10,
+    "L": 50,
+    "C": 100,
+    "D": 500,
+    "M": 1000
+}
+def roman_to_arab(roman):
+    total = 0
+    prev = 0
+    for ch in roman[::-1]:
+        val = roman_to_int.get(ch, None)
+        if val is None:
+            return None
+        if val < prev:
+            total -= val
+        else:
+            total += val
+        prev = val
+    return total
+int_to_roman_list = [
+    (1000, "M"),
+    (900, "CM"),
+    (500, "D"),
+    (400, "CD"),
+    (100, "C"),
+    (90, "XC"),
+    (50, "L"),
+    (40, "XL"),
+    (10, "X"),
+    (9, "IX"),
+    (5, "V"),
+    (4, "IV"),
+    (1, "I")
+]
+def arab_to_roman(num):
+    if num <= 0:
+        return None
+    res = ""
+    for value, symbol in int_to_roman_list:
+        while num >= value:
+            res += symbol
+            num -= value
+    return res
+def roman_calc(r1, op, r2):
+    a = roman_to_arab(r1)
+    b = roman_to_arab(r2)
+    if a is None or b is None:
+        return "ошибка: неправильные римские цифры"
+    if op == "+":
+        res = a + b
+    elif op == "-":
+        res = a - b
+    elif op == "*":
+        res = a * b
+    elif op == "/":
+        if b == 0:
+            return "ошибка: деление на ноль"
+        res = a // b
+    else:
+        return "ошибка: неизвестная операция"
+    roman_res = arab_to_roman(res)
+    if roman_res is None:
+        return "ошибка: результат нельзя представить (<= 0)"
+    return roman_res
+print(roman_calc("VI", "-", "II")) 
