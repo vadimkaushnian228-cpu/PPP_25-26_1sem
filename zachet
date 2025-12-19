@@ -1,0 +1,39 @@
+n, m = map(int, input().split())
+
+table = []
+for _ in range(n):
+   row = list(map(int, input().split()))
+    table.append(row)
+count = 0
+max_value = None
+first_coords = None
+
+for i in range(n):
+    for j in range(m):
+        current = table[i][j]
+        is_local_max = True
+
+        if i > 0 and current <= table[i-1][j]:
+            is_local_max = False
+        if i < n-1 and current <= table[i+1][j]:
+            is_local_max = False
+        if j > 0 and current <= table[i][j-1]:
+            is_local_max = False
+        if j < m-1 and current <= table[i][j+1]:
+           is_local_max = False
+       if is_local_max:
+          count += 1
+
+            if max_value is None or current > max_value:
+               max_value = current
+           if first_coords is None:
+              first_coords = (i, j)
+print(count)
+
+if count > 0:
+    print(max_value)
+
+  print(f"{first_coords[0]} {first_coords[1]}")
+else:
+    print(0)
+    print("Нет локальных максимумов")
